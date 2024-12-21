@@ -1,25 +1,27 @@
 #include <iostream>
 
 using namespace std;
+template <class T>
 class Node
 {
 public:
   int data;
-  Node *Right;
-  Node *Left;
+  Node<T> *Right;
+  Node<T> *Left;
   Node(int _data)
   {
     data = _data;
     Right = Left = NULL;
   }
 };
+template <class U>
 class Tree
 {
 private:
-  Node *root;
-  Node *getNodeByData(int data)
+  Node<U> *root;
+  Node<U> *getNodeByData(int data)
   {
-    Node *current = root;
+    Node<U> *current = root;
     while (current != NULL)
     {
       if (data == current->data)
@@ -37,9 +39,9 @@ private:
     }
     return NULL;
   }
-  Node *getParent(Node *node)
+  Node<U> *getParent(Node<U> *node)
   {
-    Node *parent = root;
+    Node<U> *parent = root;
     while (parent != NULL)
     {
       if (node == parent->Right || node == parent->Left)
@@ -57,9 +59,9 @@ private:
     }
     return NULL;
   }
-  Node *getMaxRight(Node *node)
+  Node<U> *getMaxRight(Node<U> *node)
   {
-    Node *current = node; // Start Point
+    Node<U> *current = node; // Start Point
     while (current->Right != NULL)
     {
       current = current->Right;
@@ -67,7 +69,7 @@ private:
     return current;
   }
 
-  void display(Node *node)
+  void display(Node<U> *node)
   {
     if (node == NULL)
     {
@@ -86,15 +88,15 @@ public:
   void add(int data)
   {
     // Create Node
-    Node *newNode = new Node(data);
+    Node<U> *newNode = new Node<U>(data);
     if (root == NULL)
     {
       root = newNode;
     }
     else
     {
-      Node *current = root;
-      Node *parent = NULL;
+      Node<U> *current = root;
+      Node<U> *parent = NULL;
       while (current != NULL)
       {
         parent = current; // Before Current Jumping
@@ -135,14 +137,14 @@ public:
   }
   int getParentBydata(int data)
   {
-    Node *node = getNodeByData(data);
+    Node<U> *node = getNodeByData(data);
     if (node == root)
     {
       throw "The Node is Root Not Have Parent";
     }
     if (node != NULL)
     {
-      Node *parent = getParent(node);
+      Node<U> *parent = getParent(node);
       if (parent != NULL)
       {
         return parent->data;
@@ -155,12 +157,12 @@ public:
   }
   int getMaxRightByData(int data)
   {
-    Node *node = getNodeByData(data);
+    Node<U> *node = getNodeByData(data);
     if (node == NULL)
     {
       throw " Node Not Found";
     }
-    Node *maxR = getMaxRight(node);
+    Node<U> *maxR = getMaxRight(node);
     return maxR->data;
   }
 
@@ -171,7 +173,7 @@ public:
 
   void Remove(int data)
   {
-    Node *node = getNodeByData(data);
+    Node<U> *node = getNodeByData(data);
     if (node == nullptr)
     {
       throw runtime_error("The tree is empty nothing to delete!");
@@ -193,8 +195,8 @@ public:
       }
       else
       {
-        Node *newRoot = root->Left;
-        Node *maxRight = getMaxRight(newRoot);
+        Node<U> *newRoot = root->Left;
+        Node<U> *maxRight = getMaxRight(newRoot);
         maxRight->Right = root->Right;
         root = newRoot;
       }
@@ -203,7 +205,7 @@ public:
     {
       // Incase we delete any element except the root node
       // we should have another ptr to track the parent of the node we want to delete
-      Node *parent = getParent(node);
+      Node<U> *parent = getParent(node);
       if (node->Left == nullptr && node->Right == nullptr)
       {
         // check where the node to the parent right or left
@@ -241,8 +243,8 @@ public:
       else
       {
         // Incase the node has right and left we delete it like we did in root
-        Node *newNode = node->Left;
-        Node *maxRight = getMaxRight(newNode);
+        Node<U> *newNode = node->Left;
+        Node<U> *maxRight = getMaxRight(newNode);
         maxRight->Right = node->Right;
         if (parent->Left == node)
         {
@@ -263,7 +265,7 @@ public:
     {
       throw "The tree is empty no thing to return";
     }
-    Node *current = this->root;
+    Node<U> *current = this->root;
     while (current->Left != NULL)
     {
       current = current->Left;
@@ -277,7 +279,7 @@ public:
     {
       throw "The tree is empty no thing to return";
     }
-    Node *current = this->root;
+    Node<U> *current = this->root;
     while (current->Right != NULL)
     {
       current = current->Right;
@@ -288,7 +290,7 @@ public:
 
 int main()
 {
-  Tree t;
+  Tree<int> t;
   t.add(50);
   t.add(40);
   t.add(70);
@@ -312,7 +314,7 @@ int main()
   }
   t.displayAll();
   cout << endl;
-  t.Remove(30);
+  t.Remove(40);
   t.displayAll();
   return 0;
 }
